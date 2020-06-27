@@ -1,14 +1,15 @@
 const exercise1 = () => {
-  // Exercise: Rewrite this function to make it usable in strongly typed manner.
-  // Stretch: Try to rewrite in both normal form and arrow function form
-  function printAndReturn(thing: any): any {
+  function printAndReturn<T>(thing: T): T {
     console.log(thing);
     return thing;
   }
 
-  printAndReturn(5);
+  printAndReturn<number>(5);
+
+  // Type Inference for the type variable happening here
   printAndReturn('This is a string');
-  printAndReturn([1, 2, 3, 4, 5]);
+
+  printAndReturn<number[]>([1, 2, 3, 4, 5]);
 };
 
 export default exercise1;

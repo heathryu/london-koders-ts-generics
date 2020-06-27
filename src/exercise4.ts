@@ -7,11 +7,8 @@ interface Koder {
   favouriteAnimal: string;
 }
 
-// Exercise: Rewrite this class to be reusable for mapping data from a CSV file
-// into any data type. - Hint: Abstract class will be your friend here - you'll need
-// a child class that implements the row mapping logic for each data type.
-class KodersCsvReader {
-  data: Koder[] = [];
+abstract class CsvReader<T> {
+  data: T[] = [];
 
   constructor(private filename: string) {}
 
@@ -22,10 +19,14 @@ class KodersCsvReader {
     .map(line => line.split(','))
     .map(this.mapRow);
   }
+  
+  protected abstract mapRow(row: string[]): T
+}
 
-  // Hint: this will take care of 
+class KodersCsvReader extends CsvReader<Koder> {
+
   mapRow(row: string[]): Koder {
-    return {
+     return {
       name: row[0],
       employer: row[1],
       yearsSpentInLondon: parseInt(row[2]),
@@ -40,22 +41,28 @@ interface FoodAccountBookRecord {
   to: string;
 }
 
+class FoodAccountBookReaderCsvReader extends CsvReader<FoodAccountBookRecord> {
+
+  mapRow(row: string[]) {
+    return {
+      food: row[0],
+      from: row[1],
+      to: row[2]
+    }
+  }
+}
+
 const exercise4 = () => {
-  
   const kodersReader = new KodersCsvReader('./koders.csv');
 
   kodersReader.read();
 
   console.log(kodersReader.data);
 
+  const foodAccountBookReader = new FoodAccountBookReaderCsvReader('./foodAccountBook.csv');
 
-  // Exercise: Create a new class for reading FoodAccountBook data from CSV
-  // and finish the remaining code below to test your work
-
-  // const foodAcountBookReader = new ???('./foodAccountBook.csv');
-
-  // foodAcountBookReader.read();
-  // console.log(foodAcountBookReader.data);
+  foodAccountBookReader.read();
+  console.log(foodAccountBookReader.data);
 };
 
 export default exercise4;

@@ -1,22 +1,17 @@
 type Fruit = '🍉';
 type Chocolate = '🍫';
 
-// Exercise: Refactor the code below to define a more reusable interface
-interface FruitBox {
-  unbox: () => Fruit;
+interface Box<T> {
+  unbox: () => T
 }
 
-interface ChocolateBox {
-  unbox: () => Chocolate;
-}
 
 const exercise2 = () => {
-  // Exercise: Update the type annotations to utilise the refactored interface definition
-  const fruitBox: FruitBox = {
+  const fruitBox: Box<Fruit> = {
     unbox: () => '🍉',
   };
 
-  const chocolateBox: ChocolateBox = {
+  const chocolateBox: Box<Chocolate> = {
     unbox: () => '🍫',
   };
 
